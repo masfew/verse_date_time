@@ -564,7 +564,17 @@ time_zone_info := class<final>:
 # Always returns a positive time
 GetTimeBetween(DateTime1:date_time, DateTime2:date_time)<transacts><decides>:date_time=
     SecondsDifference := Abs(CalculateSecondsSinceEpoch(DateTime2) - CalculateSecondsSinceEpoch(DateTime1))
-    GetDateTimeFromSecondsSinceEpoch[SecondsDifference]
+    DateTime := GetDateTimeFromSecondsSinceEpoch[SecondsDifference]
+    if (Int[SecondsDifference] < DATETIME_DAY_SECONDS):
+        date_time:
+            Year := 0
+            Month := 0
+            Day := 0
+            Hour := DateTime.Hour
+            Minute := DateTime.Minute
+            Second := DateTime.Second
+    else:
+        DateTime
 
 #===================================================#
 #                                                   #
